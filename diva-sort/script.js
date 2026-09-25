@@ -1,14 +1,14 @@
 const CONFIG = { API_URL: "https://script.google.com/macros/s/AKfycbxmZeJbTSNcaxoQNLC1t7raCeGl_Rnr0bP1hQE5b03ymf1k-OVPaUvkX3adRGd3PXpptA/exec" };
 
 const characters = [
- {name:"レイ・オーバ",image:"images/img01-01.jpg"},
- {name:"フォンニーナ",image:"images/img02-03.jpg"},
- {name:"ディアナ・フルール",image:"images/img03-08.jpg"},
+ {name:"レイ・オーバ",image:"images/img_01-01.jpg"},
+ {name:"フォンニーナ",image:"images/img_02-03.jpg"},
+ {name:"ディアナ・フルール",image:"images/img_03-08.jpg"},
 //  {name:"ジャンヌ・ドラニエス",image:"images/img03-02.jpg"},
 //  {name:"ゼクシア・テンマ",image:"images/img08-11.jpg"},
 //  {name:"グリーフィア・ダルク",image:"images/img01-02.jpg"},
 //  {name:"ラビィ・ダーリン",image:"images/img01-03.jpg"},
- {name:"スピッツ・ドラコニー",image:"images/img01-13.jpg"}
+ {name:"スピッツ・ドラコニー",image:"images/img_01-13.jpg"}
 ];
 
 let ranking = [];
