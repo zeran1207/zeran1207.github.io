@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>データテーブル</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="container">
+    <h1>データテーブル</h1>
+
+    <div class="search-area">
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="🔍 検索..."
+        autocomplete="off"
+      >
+      <span id="resultCount">読み込み中...</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th>Possess</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+    </div>
+
+    <p id="errorMessage" class="error"></p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
