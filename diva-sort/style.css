@@ -1,0 +1,59 @@
+* { box-sizing: border-box; }
+:root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans JP", sans-serif; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #fff2f8, #f4f7ff);
+  color: #333;
+}
+.app { width: min(760px, 100%); margin: auto; padding: 20px 14px 40px; }
+header { text-align: center; margin-bottom: 18px; }
+h1 { margin: 8px 0; line-height: 1.25; }
+h2 { margin-top: 0; }
+.panel {
+  background: rgba(255,255,255,.92);
+  border-radius: 22px;
+  padding: 24px 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+  text-align: center;
+}
+.hidden { display: none !important; }
+button { font: inherit; }
+.primary, .secondary {
+  border: 0; border-radius: 999px; padding: 13px 22px;
+  cursor: pointer; font-weight: 700; margin: 5px;
+}
+.primary { background: #ff6fae; color: white; }
+.secondary { background: #eee; color: #333; }
+.progress-wrap { margin: 10px 0 20px; text-align:center; }
+.progress { height: 9px; background:#eee; border-radius:99px; overflow:hidden; margin-top:7px; }
+#progress-bar { height:100%; width:0; background:#ff6fae; transition:width .2s; }
+.choices {
+  display:grid; grid-template-columns: 1fr 54px 1fr; align-items:center; gap:8px;
+}
+.choice {
+  border: 2px solid transparent; background:white; border-radius:20px;
+  padding: 10px; box-shadow:0 5px 20px rgba(0,0,0,.09);
+  cursor:pointer; min-width:0;
+}
+.choice:active { transform:scale(.98); }
+.choice img {
+  width:100%; aspect-ratio:1; object-fit:cover; border-radius:15px;
+  background:#eee;
+}
+.choice span { display:block; font-weight:700; padding:10px 2px 4px; word-break:break-word; }
+.vs { font-weight:900; color:#999; text-align:center; }
+.result-list { text-align:left; padding-left:34px; margin: 16px auto 22px; max-width:520px; }
+.result-list li { padding:10px 8px; border-bottom:1px solid #eee; }
+.result-list li:first-child { font-weight:800; }
+.actions { display:flex; flex-wrap:wrap; justify-content:center; }
+.status { min-height:1.4em; margin:12px 0 0; }
+footer { text-align:center; color:#888; margin-top:18px; }
+
+@media (max-width: 520px) {
+  .app { padding: 14px 10px 30px; }
+  .choices { grid-template-columns: 1fr 34px 1fr; gap:5px; }
+  .choice { padding:7px; border-radius:16px; }
+  .choice img { border-radius:12px; }
+  .choice span { font-size:.9rem; }
+}
