@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-<rect width="600" height="600" fill="#f3f3f3"/>
-<circle cx="300" cy="245" r="95" fill="#ddd"/>
-<path d="M150 510c20-110 280-110 300 0" fill="#ddd"/>
-<text x="300" y="575" text-anchor="middle" font-family="sans-serif" font-size="30" fill="#777">フォンニーナ</text>
-</svg>
