@@ -1,4 +1,4 @@
-const CONFIG = { API_URL: "" };
+const CONFIG = { API_URL: "https://script.google.com/macros/s/AKfycbxmZeJbTSNcaxoQNLC1t7raCeGl_Rnr0bP1hQE5b03ymf1k-OVPaUvkX3adRGd3PXpptA/exec" };
 
 const characters = [
  {name:"レイ・オーバ",image:"images/rei.svg"},
