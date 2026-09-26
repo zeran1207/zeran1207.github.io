@@ -1,5 +1,5 @@
 const CONFIG = {
-    API_URL: "https://script.google.com/macros/s/AKfycbxmZeJbTSNcaxoQNLC1t7raCeGl_Rnr0bP1hQE5b03ymf1k-OVPaUvkX3adRGd3PXpptA/exec"
+    API_URL: "https://script.google.com/macros/s/AKfycbwGkoVcxqDorlcjh15qygn_SVgGf2jJZ4Xd2mC5EDsH3UpgSnroke34DB2z2Pk39jLDyA/exec"
 };
 let groups = [],
     groupIndex = 0,
