@@ -1,112 +1,58 @@
-/*
- * バトスピ ディーバ キャラソート 集計用
+/**
+ * バトスピ ディーバ キャラソート 集計用 Apps Script
  *
- * 1. Googleスプレッドシートを1枚作る
- * 2. 拡張機能 → Apps Script
- * 3. このコードを貼り付けて保存
- * 4. デプロイ → 新しいデプロイ → ウェブアプリ
- * 5. 実行するユーザー：自分
- * 6. アクセスできるユーザー：全員
- * 7. 発行された /exec URL を GitHub側 script.js の CONFIG.API_URL に貼る
+ * このスクリプトを「集計先スプレッドシート」に紐づけてください。
+ * Webアプリとしてデプロイすると、index.htmlからランキングを受け取って
+ * 「Votes」シートへ1プレイ=1行で保存します。
  */
 
-const SHEET_NAME = "投票";
+const SHEET_NAME = 'Votes';
 
-const CHARACTERS = [
-  "レイ・オーバ",
-  "フォンニーナ",
-  "ディアナ・フルール",
-  "ジャンヌ・ドラニエス",
-  "ゼクシア・テンマ",
-  "グリーフィア・ダルク",
-  "ラビィ・ダーリン",
-  "スピッツ・ドラコニー"
-];
+function doGet() {
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true, message: 'Diva sorter API is running.' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
 
 function doPost(e) {
   try {
+    if (!e || !e.postData || !e.postData.contents) {
+      throw new Error('POSTデータがありません。');
+    }
+
     const data = JSON.parse(e.postData.contents);
+    const ranking = data.ranking;
 
-    if (!Array.isArray(data.ranking)) {
-      return output({ok:false, error:"rankingがありません"});
-    }
-    if (data.ranking.length !== CHARACTERS.length) {
-      return output({ok:false, error:"キャラクター数が不正です"});
+    if (!Array.isArray(ranking) || ranking.length === 0) {
+      throw new Error('ranking が空です。');
     }
 
-    const valid = data.ranking.every(name => CHARACTERS.includes(name));
-    if (!valid) {
-      return output({ok:false, error:"不正なキャラクターが含まれています"});
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (!ss) {
+      throw new Error('スプレッドシートに紐づいたApps Scriptではありません。');
     }
 
-    const unique = new Set(data.ranking);
-    if (unique.size !== CHARACTERS.length) {
-      return output({ok:false, error:"同じキャラクターが重複しています"});
+    let sheet = ss.getSheetByName(SHEET_NAME);
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_NAME);
     }
 
-    const sheet = getSheet();
-    sheet.appendRow([new Date(), ...data.ranking]);
+    // 初回だけヘッダーを作成。
+    if (sheet.getLastRow() === 0) {
+      const headers = ['timestamp', ...ranking.map((_, i) => `rank_${i + 1}`)];
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    }
 
-    return output({ok:true});
+    const row = [new Date(), ...ranking.map(String)];
+    sheet.getRange(sheet.getLastRow() + 1, 1, 1, row.length).setValues([row]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+
   } catch (error) {
-    return output({ok:false, error:String(error)});
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: String(error.message || error) }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
-}
-
-function doGet() {
-  const sheet = getSheet();
-  const values = sheet.getDataRange().getValues();
-
-  if (values.length <= 1) {
-    return output({ok:true, votes:0, ranking:[]});
-  }
-
-  const scores = {};
-  CHARACTERS.forEach(name => {
-    scores[name] = {name, first:0, total:0};
-  });
-
-  for (let r = 1; r < values.length; r++) {
-    for (let i = 0; i < CHARACTERS.length; i++) {
-      const name = values[r][i + 1];
-      if (!scores[name]) continue;
-
-      const rank = i + 1;
-      scores[name].total += rank;
-      if (rank === 1) scores[name].first++;
-    }
-  }
-
-  const voteCount = values.length - 1;
-
-  const ranking = Object.values(scores)
-    .map(item => ({
-      name: item.name,
-      first: item.first,
-      average: voteCount > 0 ? item.total / voteCount : 0
-    }))
-    .sort((a, b) => {
-      if (a.average !== b.average) return a.average - b.average;
-      return b.first - a.first;
-    });
-
-  return output({ok:true, votes:voteCount, ranking});
-}
-
-function getSheet() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(SHEET_NAME);
-
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow(["日時", ...CHARACTERS]);
-  }
-
-  return sheet;
-}
-
-function output(data) {
-  return ContentService
-    .createTextOutput(JSON.stringify(data))
-    .setMimeType(ContentService.MimeType.JSON);
 }
